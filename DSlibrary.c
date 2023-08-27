@@ -1,6 +1,7 @@
 #include"DSlibrary.h"
 #include<stdio.h>
 #include<stdlib.h>
+#include "test_functions.h"
 
 
 
@@ -47,15 +48,22 @@ int mystrcmp(const char *s1, const char *s2){
 	return 0;
 }
 
-char *mystrdup(const char *src){
+char *mystrdup(const char *src) {
+    if (src == NULL) {
+        perror("Empty string input");
+        return NULL;  // Return early if src is NULL
+    }
 
-	char* rv = malloc(sizeof(char) * mystrlen(src));
-	if(src == NULL){perror("Empty string input");}
-	else{
-		rv = mystrcpy(rv,src);
-	}
-	return rv;
+    char *rv = malloc(sizeof(char) * (mystrlen(src) + 1));
+    if (rv == NULL) {
+        perror("Memory allocation error");
+        return NULL;  // Return NULL on memory allocation failure
+    }
+
+    rv = mystrcpy(rv, src);
+    return rv;
 }
+
 
 
 //MYList functions
