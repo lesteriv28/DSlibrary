@@ -88,10 +88,10 @@ int main(int argc, char **argv) {
  * Helper Functions
  */
 void dumpList(struct node *head) {
-  struct node *current = head;
-  while (current != NULL) {
-    printf("%5d", current->data);
-    current = current->next;
+  while (head != NULL) {
+    struct node *temp = head;
+    head = head->next;
+    free(temp);
   }
   printf("\n");
 }
@@ -139,6 +139,8 @@ void testInsertAtHead() {
   TEST(List_countNodes(list) == 0);
   TEST(List_findNode(list, 0) == NULL);
   TEST(List_findNode(list, 1) == NULL);
+  // Cleanup
+  dumpList(list);
 }
 
 void testInsertAtTail() {
@@ -155,6 +157,8 @@ void testInsertAtTail() {
   TEST(List_countNodes(list) == 0);
   TEST(List_findNode(list, 0) == NULL);
   TEST(List_findNode(list, 1) == NULL);
+  // Cleanup
+  dumpList(list);
 }
 
 void testAddManyToHeadOrTail(_Bool addToHead) {
@@ -168,6 +172,8 @@ void testAddManyToHeadOrTail(_Bool addToHead) {
   TEST(List_findNode(list, 3)->data == 3);
   TEST(List_findNode(list, 4)->data == 4);
   TEST(List_findNode(list, 5)->data == 5);
+  // Cleanup
+  dumpList(list);
 }
 
 void testSort() {
@@ -184,6 +190,7 @@ void testSort() {
   testListSortFromArray((int[]){-1, 0, 1, 2, 3, TERMINATOR});
   testListSortFromArray((int[]){5, 4, 3, 2, 1, 0, -1, -2, -3, -4, TERMINATOR});
   testListSortFromArray((int[]){0, 1, 9, 1, -5, 22, 10, 0, -15, TERMINATOR});
+  
 }
 
 void testListSortFromArray(int data[]) {
@@ -196,10 +203,8 @@ void testListSortFromArray(int data[]) {
   }
 
   // Sort:
-  //  printf("List before (then after) sort:\n");
-  //  dumpList(list);
   List_sort(&list);
-  //  dumpList(list);
+ 
   
 
 
@@ -210,8 +215,6 @@ void testListSortFromArray(int data[]) {
     current = current->next;
   }
 
-  // Clear
-  while (List_countNodes(list)) {
-    List_deleteNode(&list, list);
-  }
+  // Clean up
+  dumpList(list);
 }

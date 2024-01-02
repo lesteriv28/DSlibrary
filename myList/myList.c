@@ -44,6 +44,7 @@ void List_insertTail(struct node **headRef, struct node *newNode)
 		while (iter < i - 1 && temp->next != NULL)
 		{
 			temp = temp->next;
+			iter++;
 		}
 		if (newNode == NULL)
 		{
